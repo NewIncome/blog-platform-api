@@ -3,7 +3,9 @@ package com.jalfreddev.blog.domain.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -21,6 +23,9 @@ public class Tag {
 
   @Column(nullable = false, unique = true)
   private String name;
+
+  @ManyToMany(mappedBy = "tags")  //no cascading specified due to independent life-cycles
+  private Set<Post> posts = new HashSet<>();
 
   @Override
   public boolean equals(Object o) {

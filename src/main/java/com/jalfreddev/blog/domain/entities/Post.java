@@ -5,7 +5,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -24,7 +26,7 @@ public class Post {
   @Column(nullable = false)
   private String title;
 
-  @Column(nullable = false, columnDefinition = "TEXT")  // to allow column to handle varying content length
+  @Column(nullable = false, columnDefinition = "TEXT")  //to allow column to handle varying content length
   private String content;
 
   @Column(nullable = false)
@@ -33,10 +35,22 @@ public class Post {
 
   @Column(nullable = false)
   private Integer readingTime;
-  
+
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "author_id", nullable = false)
   private User author;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "category_id", nullable = false)
+  private Category category;
+
+  @ManyToMany(fetch = FetchType.LAZY)
+  @JoinTable(
+      name = "post_tags",
+      joinColumns = @JoinColumn(name = "post_id"),
+      inverseJoinColumns = @JoinColumn(name = "tag_id")
+  )
+  private Set<Tag> tags = new HashSet<>();  //to prevent duplicates and improve performance
 
   @Column(nullable = false)
   private LocalDateTime createdAt;
