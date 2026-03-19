@@ -19,4 +19,6 @@ public interface CategoryRepository extends JpaRepository<Category, UUID> {
      which would lead to a great number of queries being sent to the DB
    */
 
+  boolean existsByNameIgnoreCase(String name);
+
 }
