@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +31,18 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     return categoryRepository.save(category);
+  }
+
+  @Override
+  public void deleteCategory(UUID id) {
+    //due to our design decision we can't delete categories that have posts associated with them
+    Optional<Category> category = categoryRepository.findById(id);
+    if(category.isPresent())
+      if(category.get().getPosts().size() > 0) {
+        throw new IllegalArgumentException("Category has posts associated with it");
+      }
+
+    categoryRepository.deleteById(id);
   }
 
 }

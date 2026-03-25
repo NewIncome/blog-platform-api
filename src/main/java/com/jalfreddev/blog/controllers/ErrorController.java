@@ -20,15 +20,25 @@ public class ErrorController {
         .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
         .message("An unexpected error ocurred")
         .build();
-    return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);  //500
   }
 
+  @ExceptionHandler(IllegalArgumentException.class)
   public ResponseEntity<ApiErrorResponse> handleIllegalArgumentException(IllegalArgumentException ex) {
     ApiErrorResponse error = ApiErrorResponse.builder()
-        .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+        .status(HttpStatus.BAD_REQUEST.value())
         .message(ex.getMessage())
         .build();
-    return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);  //400
+  }
+
+  @ExceptionHandler(IllegalStateException.class)
+  public ResponseEntity<ApiErrorResponse> handleIllegalStateException(IllegalStateException ex) {
+    ApiErrorResponse error = ApiErrorResponse.builder()
+        .status(HttpStatus.CONFLICT.value())
+        .message(ex.getMessage())
+        .build();
+    return new ResponseEntity<>(error, HttpStatus.CONFLICT);  //409
   }
 
 }
