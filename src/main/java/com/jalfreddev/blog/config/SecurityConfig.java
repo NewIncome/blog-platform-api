@@ -16,6 +16,7 @@ public class SecurityConfig {
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    //To specify security filters. Like for the app's EndPoints, for CSRF,and SessionManagement
     http
         .authorizeHttpRequests(auth -> auth
             .requestMatchers(HttpMethod.GET, "/api/v1/posts/**").permitAll()
