@@ -1,3 +1,6 @@
+/**
+ *  Needed for the Response, of AuthController::login() {.}
+ */
 package com.jalfreddev.blog.domain.dtos;
 
 import lombok.AllArgsConstructor;
@@ -11,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class AuthResponse {
 
-  private String token;  //JWT value
-  private Long expiresIn;  //just to have it available easily, it's inside the token itself
+  private String token;  //JWT value.  To have it available easily. It's inside the token itself
+  private Long expiresIn;
 
 }
