@@ -1,3 +1,6 @@
+/**
+ *  Needed for the RequestBody param, for AuthController::login(.)
+ */
 package com.jalfreddev.blog.domain.dtos;
 
 import lombok.AllArgsConstructor;
@@ -10,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class LoginRequest {
-  
+
   private String email;
   private String password;
 
