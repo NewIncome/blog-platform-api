@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
+import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -53,8 +54,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             .compact();
   }
 
-  private Keys getSigningKey() {
+  private Key getSigningKey() {
     byte[] keyBytes = secretKey.getBytes();
     return Keys.hmacShaKeyFor(keyBytes);
   }
+
 }
