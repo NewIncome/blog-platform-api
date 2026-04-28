@@ -6,6 +6,8 @@ public interface AuthenticationService {
 
   UserDetails authenticate(String email, String password);
 
-  String generateToken(UserDetails userDetails);
+  String generateToken(UserDetails userDetails);  //will turn UserDetails → Jwt
+
+  UserDetails validateToken(String token);  //will turn Jwt → UserDetails
 
 }
