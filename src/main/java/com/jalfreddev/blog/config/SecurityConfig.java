@@ -1,5 +1,6 @@
 package com.jalfreddev.blog.config;
 
+import com.jalfreddev.blog.domain.entities.User;
 import com.jalfreddev.blog.repositories.UserRepository;
 import com.jalfreddev.blog.security.BlogUserDetailsService;
 import com.jalfreddev.blog.security.JwtAuthenticationFilter;
@@ -27,7 +28,22 @@ public class SecurityConfig {
 
   @Bean
   public UserDetailsService userDetailsService(UserRepository userRepository) {
-    return new BlogUserDetailsService(userRepository);
+    //Must modify later to have the fully build users functionality
+    //for now, it's modified to autocreate one user when we start up the application, and only that one will be used
+    BlogUserDetailsService blogUserDetailsService = new BlogUserDetailsService(userRepository);
+
+    //this will create that user if it doesn't exist
+    String email = "user@test.com";
+    userRepository.findByEmail(email).orElseGet(() -> {
+      User newUser = User.builder()
+              .name("Test User")
+              .email(email)
+              .password(passwordEncoder().encode("mypassword"))
+              .build();
+      return userRepository.save(newUser);
+    });
+
+    return blogUserDetailsService;
   }
 
   @Bean
@@ -37,7 +53,7 @@ public class SecurityConfig {
     //To specify security filters. Like for the app's EndPoints, for CSRF,and SessionManagement
     http
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers(HttpMethod.POST, "/api/v1/auth").permitAll()
+            .requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
             .requestMatchers(HttpMethod.GET, "/api/v1/posts/**").permitAll()
             .requestMatchers(HttpMethod.GET, "/api/v1/categories/**").permitAll()
             .requestMatchers(HttpMethod.GET, "/api/v1/tags/**").permitAll()
