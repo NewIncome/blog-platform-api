@@ -28,7 +28,7 @@ public class AuthController {
 
     AuthResponse authResponse = AuthResponse.builder()
         .token(tokenValue)
-        .expiresIn(86400) //in seconds, 24hrs
+        .expiresIn(86400L) //in seconds, 24hrs
         .build();
 
     return ResponseEntity.ok(authResponse);
